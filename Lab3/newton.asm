@@ -3,13 +3,20 @@
 x:		.double 293
 estimativa:	.double 1
 n:		.word 10
-espaco:		.asciiz "     "
+
+
+espaco:		.asciiz "     "    
+chamada:	.asciiz "Insira o numero de iteracoes: "
 
 .text
 main:
+	
+	
+	jal	ler_terminal
+	
 	la	$a0, estimativa
 	la	$a1, x
-	la	$a2, n
+	
 	
 	jal	raiz_quadrada_newton
 	
@@ -27,6 +34,23 @@ main:
 	
 	li	$v0, 10
 	syscall
+
+ler_terminal:
+	li	$v0, 4
+	la	$a0, chamada
+	syscall
+	
+	li 	$v0, 5
+	syscall
+	sw	$v0, n
+	
+	la	$a2, n
+	jr	$ra
+
+
+
+
+
 
 raiz_quadrada_newton:
 	ldc1	$f0, 0($a0)	# estimativa
