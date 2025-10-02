@@ -1,6 +1,6 @@
 .data
 
-x:		.double 293
+x:		.double 213
 estimativa:	.double 1
 n:		.word 10
 
@@ -36,15 +36,15 @@ main:
 	syscall
 
 ler_terminal:
-	li	$v0, 4
+	li	$v0, 4		# Print String
 	la	$a0, chamada
 	syscall
 	
-	li 	$v0, 5
+	li 	$v0, 5		# Ler inteiro	
 	syscall
-	sw	$v0, n
+	sw	$v0, n		# Guarda ele em n
 	
-	la	$a2, n
+	la	$a2, n		# Salva em a2 
 	jr	$ra
 
 
