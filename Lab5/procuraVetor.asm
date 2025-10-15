@@ -6,11 +6,6 @@
 	foundMsg:      .asciiz "Numero encontrado!\n"
 	nfoundMsg:  	.asciiz "Numero nao encontrado.\n"
 	
-	size:	.word 0
-	i:	.word 0
-	key:	.word 0
-	found:	.word 0
-	
 .text
 .globl main
 main:
