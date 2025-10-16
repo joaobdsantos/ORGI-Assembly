@@ -10,6 +10,7 @@
 	
 	
 .text
+	move $fp, $sp
 	addi $sp, $sp, -8
 	# -4($fp) -> limit
 	# -8($fp) -> count
@@ -35,8 +36,8 @@
 	div  	$t0, $s1
 	mfhi	$t1
 	
-	beq	$t1, 0, cond_true
-	j	isoma
+	beq	$t1, 0, cond_true	# Poderia ir direto para iSoma sendo 
+	j	isoma			# Seria desnecessario
 	
 	cond_true:
 		#Carregar/add count
