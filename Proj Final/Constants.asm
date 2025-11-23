@@ -4,11 +4,13 @@
 	Elevador1_andarDestino: .word 0
 	Elevador1_emMovimento:	.word 0
 	Elevador1_passoTimer:	.word 0
+	Elevador1_request:	.word 0, 0, 0
 	
 	Elevador2_andarAtual:  	.word 0
 	Elevador2_andarDestino: .word 0
 	Elevador2_emMovimento:	.word 0
 	Elevador2_passoTimer:	.word 0
+	Elevador2_request:	.word 0, 0, 0
 	
 	#Leds
 	ledD_end: 		.word 0xFFFF0011
@@ -31,7 +33,7 @@
 	key_keyPressed:		.word	0xFFFF0014
 	
 	#IOs
-	
-	inputQueue:		.word	0,0
+	# Andar que esta, sobe/desce, andar destino, confirma
+	inputQueue:		.word	0,0,0,0
 	
 	 

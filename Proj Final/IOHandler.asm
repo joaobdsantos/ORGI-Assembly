@@ -1,12 +1,7 @@
-.include	"Constants.asm"
-
-.data
-
 
 
 .text
-
-main:
+IOHandler_process:
 	lw	$t6, key_lineEnable		# line enable address
 	lw	$t7, key_keyPressed	# key pressed data address
 	li	$s4, 0xFFFF0011		# loading the display address
@@ -44,13 +39,65 @@ findKey:
 	j	findKey
 
 queueIO:
-	move	$a0, $t8
-	li 	$v0, 1
-	syscall
+	# se queue esta vazia e for numero, adicionar
+	lw	$t1, 0($s0)
+	bnez	$t1, queue1NotEmpty	# se a posicao 1 estiver ocupada
+	bge	$t8, 8, exitIO		# se nao for numero valido, ignora
 	
+	sw	$t8, 0($s0)
+	j 	exitIO
+	
+	# se nao se queue tiver segundo slot vazio e for cima/baixo adicionar
+	queue1NotEmpty:
+	lw	$t1, 4($s0)
+	bnez	$t1, queue2NotEmpty		# se a posicao 2 estiver toda ocupada
+	bgt	$t8, 12, exitIO		# se o valor nao for 11 ou 12 nao e valido
+	blt	$t8, 11, exitIO
+	
+	sw	$t8, 4($s0)
+	j 	exitIO
+	
+	queue2NotEmpty:
+	lw	$t1, 8($s0)
+	bnez	$t1, queue3NotEmpty	# se a posicao 1 estiver ocupada
+	bge	$t8, 8, exitIO		# se nao for numero valido, ignora
+	
+	sw	$t8, 8($s0)
+	j 	exitIO
+	
+	queue3NotEmpty:
+	lw	$t1, 12($s0)
+	bnez	$t1, exitIO		# se a posicao 1 estiver ocupada
+	bne	$t8, 15, exitIO		# se nao for confirma
+	
+	sw	$t8, 12($s0)
+	j 	exitIO
 
 exitIO:
+	# TODO: colocar inputQueue em um $s
+	#lw	$t2, 0($s0)
+	#move	$a0, $t2
+	#li 	$v0, 1
+	#syscall
+	
+	#lw	$t2, 4($s0)
+	#move	$a0, $t2
+	#li 	$v0, 1
+	#syscall
+	
+	#lw	$t2, 8($s0)
+	#move	$a0, $t2
+	#li 	$v0, 1
+	#syscall
+	
+	#lw	$t2, 12($s0)
+	#move	$a0, $t2
+	#li 	$v0, 1
+	#syscall
+	
 	li	$a0, 1000
 	li 	$v0, 32
 	syscall
-	j main
+	
+	# volta pro programa
+	jr	$ra
