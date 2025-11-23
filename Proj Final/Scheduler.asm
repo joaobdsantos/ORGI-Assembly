@@ -1,4 +1,4 @@
-.include	"Constants.asm"
+#.include	"Constants.asm"
 
 .data
 
@@ -52,6 +52,11 @@ Scheduler_process:
 		sw	$t2, 4($t6)
 		sw	$t3, 8($t6)
 		
+		sw	$zero, 0($s0)
+		sw	$zero, 4($s0)
+		sw	$zero, 8($s0)
+		sw	$zero, 12($s0)
+			
 		j	exitScheduler
 		
 	elevadorEmMovimento:
@@ -101,4 +106,4 @@ Scheduler_process:
 			j	requestElevador2
 
 exitScheduler:
-	jr
+	jr	$ra
