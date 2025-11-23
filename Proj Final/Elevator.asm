@@ -9,10 +9,12 @@ Elevator_process:
 				beqz	$t0, exitElevator
 	taMovendo:
 				addi 	$t1, $t1, 100
+				sw	$t1, Elevador1_passoTimer
 				beq	$t1, 4000, passaAndar
 				j	exitElevator	
 	passaAndar:
 				li	$t1, 0
+				sw	$t1, Elevador1_passoTimer
 				lw	$t4, Elevador1_andarAtual
 				lw	$t5, Elevador1_andarDestino
 				blt	$t4, $t5, subindo
