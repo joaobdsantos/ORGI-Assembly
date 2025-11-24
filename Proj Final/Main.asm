@@ -2,8 +2,8 @@
 main:
 	la	$s0, inputQueue
 	la	$s1, displayTable
-	lw	$s2, ledD_end
-	lw	$s3, ledE_end
+	lw	$s2, ledE_end
+	lw	$s3, ledD_end
 		
 Loop_main:
 	jal	IOHandler_process
@@ -23,10 +23,26 @@ Loop_main:
 	lb 	$t2, 0($t0)
 	sb 	$t2, 0($s3)
 	
-	li	$v0, 32
-	li	$a0, 50
+	li   $a0, 10
+	jal  DELAY_PROC
+	
+	
+	
+
+	j Loop_main
+	
+DELAY_PROC:
+	move $t0, $a0
+	li $v0, 30
 	syscall
-	j	Loop_main
+	add $t0, $t0, $a0
+
+loop:
+	li $v0, 30
+	syscall
+	blt $a0, $t0, loop
+
+	jr $ra
 	
 .include	"IOHandler.asm"
 .include	"Scheduler.asm"

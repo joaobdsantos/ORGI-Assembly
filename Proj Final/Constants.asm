@@ -13,8 +13,8 @@
 	Elevador2_request:	.word 0, 0, 0
 	
 	#Leds
-	ledD_end: 		.word 0xFFFF0011
-	ledE_end: 		.word 0xFFFF0010
+	ledD_end: 		.word 0xFFFF0010
+	ledE_end: 		.word 0xFFFF0011
 	
 	#Teclado
 	keyTable:
@@ -34,6 +34,8 @@
 	
 	#IOs
 	# Andar que esta, sobe/desce, andar destino, confirma
-	inputQueue:		.word	0,0,0,0
+	inputQueue:		.word	-1,-1,-1,-1
+	
+	#reset sistema
 	
 	 

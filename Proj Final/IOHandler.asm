@@ -39,7 +39,7 @@ findKey:
 queueIO:
 	# se queue esta vazia e for numero, adicionar
 	lw	$t1, 0($s0)
-	bnez	$t1, queue1NotEmpty	# se a posicao 1 estiver ocupada
+	bne	$t1,-1, queue1NotEmpty	# se a posicao 1 estiver ocupada
 	bge	$t8, 8, exitIO		# se nao for numero valido, ignora
 	
 	sw	$t8, 0($s0)
@@ -48,7 +48,7 @@ queueIO:
 	# se nao se queue tiver segundo slot vazio e for cima/baixo adicionar
 	queue1NotEmpty:
 	lw	$t1, 4($s0)
-	bnez	$t1, queue2NotEmpty		# se a posicao 2 estiver toda ocupada
+	bne	$t1,-1, queue2NotEmpty		# se a posicao 2 estiver toda ocupada
 	bgt	$t8, 12, exitIO		# se o valor nao for 11 ou 12 nao e valido
 	blt	$t8, 11, exitIO
 	
@@ -57,7 +57,7 @@ queueIO:
 	
 	queue2NotEmpty:
 	lw	$t1, 8($s0)
-	bnez	$t1, queue3NotEmpty	# se a posicao 1 estiver ocupada
+	bne	$t1, -1, queue3NotEmpty	# se a posicao 1 estiver ocupada
 	bge	$t8, 8, exitIO		# se nao for numero valido, ignora
 	
 	sw	$t8, 8($s0)
@@ -65,7 +65,7 @@ queueIO:
 	
 	queue3NotEmpty:
 	lw	$t1, 12($s0)
-	bnez	$t1, exitIO		# se a posicao 1 estiver ocupada
+	bne	$t1, -1, exitIO		# se a posicao 1 estiver ocupada
 	bne	$t8, 15, exitIO		# se nao for confirma
 	
 	sw	$t8, 12($s0)

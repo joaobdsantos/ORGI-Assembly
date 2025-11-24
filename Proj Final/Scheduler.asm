@@ -8,7 +8,7 @@
 Scheduler_process:
 	inputQueue_check:
 	lw	$t0, 12($s0)
-	beqz	$t0, exitScheduler	# se input vazio, sai do scheduler
+	beq	$t0, -1, exitScheduler	# se input vazio, sai do scheduler
 	
 	inputQueue_handler:
 	lw	$t1, Elevador1_emMovimento
@@ -50,10 +50,12 @@ Scheduler_process:
 		sw	$t2, 4($t6)
 		sw	$t3, 8($t6)
 		
-		sw	$zero, 0($s0)
-		sw	$zero, 4($s0)
-		sw	$zero, 8($s0)
-		sw	$zero, 12($s0)
+		li	$t4, -1
+		
+		sw 	$t4, 0($s0)
+		sw	$t4, 4($s0)
+		sw	$t4, 8($s0)
+		sw	$t4, 12($s0)
 			
 		j	exitScheduler
 		
