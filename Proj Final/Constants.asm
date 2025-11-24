@@ -1,8 +1,8 @@
 .data
 	#Struct Elevadores
-	Elevador1_andarAtual:  	.word 7
-	Elevador1_andarDestino: .word 2
-	Elevador1_emMovimento:	.word 1
+	Elevador1_andarAtual:  	.word 0
+	Elevador1_andarDestino: .word 0
+	Elevador1_emMovimento:	.word 0
 	Elevador1_passoTimer:	.word 0
 	Elevador1_request:	.word 0, 0, 0
 	

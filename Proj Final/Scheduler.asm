@@ -1,7 +1,5 @@
-#.include	"Constants.asm"
-
 .data
-
+	nl:     .asciiz "\n"
 .text
 # funcoes do scheduler
 # ver se a input queue ta cheia e criar o request
@@ -19,7 +17,7 @@ Scheduler_process:
 	
 	# carregando os valores de inputQueue
 	lw	$t1, 0($s0)		# andar atual
-	lw	$t2, 4($s0)		# sobe/desce	11/12
+	lw	$t2, 4($s0)		# desce/sobe	11/12
 	lw	$t3, 8($s0)		# andar destino
 	
 	bnez	$t0, elevadorEmMovimento	# se os 2 estiverem parados
@@ -60,7 +58,7 @@ Scheduler_process:
 		j	exitScheduler
 		
 	elevadorEmMovimento:
-	#bgt	$t0, 1, doisEmMovimento
+	bgt	$t0, 1, doisEmMovimento
 	umEmMovimento:
 	# verifica se o que esta em movimento passa pelo local, e esta na direcao certa
 	# se nao manda o request pro outro elevador
@@ -73,7 +71,7 @@ Scheduler_process:
 			lw	$t5, Elevador1_andarDestino
 		
 			sub	$t6, $t4, $t5
-			beq	$t2, 11, elevador1_verifyRequestSobe
+			beq	$t2, 12, elevador1_verifyRequestSobe
 			elevador1_verifyRequestDesce:
 			blt	$t6, $zero, requestElevador2
 			blt	$t4, $t1, requestElevador2	# se o andar do elevador for menor que o do pedido, manda pro outro
@@ -81,7 +79,7 @@ Scheduler_process:
 			j	requestElevador1
 		
 			elevador1_verifyRequestSobe:
-			blt	$t6, $zero, requestElevador2
+			bgt	$t6, $zero, requestElevador2
 			blt	$t5, $t1, requestElevador2	# se o andar do elevador for menor que o do pedido, manda pro outro
 			bgt	$t4, $t1, requestElevador2	# se o andar destino for maior que o requisitoado
 			j	requestElevador1
@@ -92,7 +90,7 @@ Scheduler_process:
 			lw	$t5, Elevador2_andarDestino
 		
 			sub	$t6, $t4, $t5
-			beq	$t2, 11, elevador2_verifyRequestSobe
+			beq	$t2, 12, elevador2_verifyRequestSobe
 			elevador2_verifyRequestDesce:
 			blt	$t6, $zero, requestElevador1
 			blt	$t4, $t1, requestElevador1	# se o andar do elevador for menor que o do pedido, manda pro outro
@@ -100,10 +98,98 @@ Scheduler_process:
 			j	requestElevador2
 		
 			elevador2_verifyRequestSobe:
-			blt	$t6, $zero, requestElevador1
+			bgt	$t6, $zero, requestElevador1
 			blt	$t5, $t1, requestElevador1	# se o andar do elevador for menor que o do pedido, manda pro outro
 			bgt	$t4, $t1, requestElevador1	# se o andar destino for maior que o requisitoado
 			j	requestElevador2
+	
+	doisEmMovimento:
+			lw	$t4, Elevador1_andarAtual
+			lw	$t5, Elevador1_andarDestino
+		
+			sub	$t6, $t4, $t5
+			beq	$t2, 12, elevador1_verifyMovingRequestSobe
+			elevador1_verifyMovingRequestDesce:
+			blt	$t6, $zero, elevador2_RequestTest
+			blt	$t4, $t1, elevador2_RequestTest	# se o andar do elevador for menor que o do pedido, manda pro outro
+			bgt	$t5, $t1, elevador2_RequestTest	# se o andar destino for maior que o requisitoado
+			j	requestElevador1
+		
+			elevador1_verifyMovingRequestSobe:
+			bgt	$t6, $zero, elevador2_RequestTest
+			blt	$t5, $t1, elevador2_RequestTest	# se o andar do elevador for menor que o do pedido, manda pro outro
+			bgt	$t4, $t1, elevador2_RequestTest	# se o andar destino for maior que o requisitoado
+			j	requestElevador1
+		
+		###########################################################################
+		elevador2_RequestTest:
+			lw	$t4, Elevador2_andarAtual
+			lw	$t5, Elevador2_andarDestino
+		
+			sub	$t6, $t4, $t5
+			beq	$t2, 12, elevador2_verifyMovingRequestSobe
+			elevador2_verifyMovingRequestDesce:
+			blt	$t6, $zero, systemPause
+			blt	$t4, $t1, systemPause	# se o andar do elevador for menor que o do pedido, manda pro outro
+			bgt	$t5, $t1, systemPause	# se o andar destino for maior que o requisitoado
+			j	requestElevador2
+		
+			elevador2_verifyMovingRequestSobe:
+			bgt	$t6, $zero, systemPause
+			blt	$t5, $t1, systemPause	# se o andar do elevador for menor que o do pedido, manda pro outro
+			bgt	$t4, $t1, systemPause	# se o andar destino for maior que o requisitoado
+			j	requestElevador2
+			
+			
+	systemPause:
+		#ADD CODE
+		
+		j	exitScheduler
 
 exitScheduler:
+	la	$t0, Elevador1_request
+	lw	$t2, 0($t0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
+	
+	lw	$t2, 4($t0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
+	
+	lw	$t2, 8($t0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
+	
+	la   $a0, nl
+        li   $v0, 4
+        syscall
+        
+        la	$t0, Elevador2_request
+	lw	$t2, 0($t0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
+	
+	lw	$t2, 4($t0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
+	
+	lw	$t2, 8($t0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
+	
+	la   $a0, nl
+        li   $v0, 4
+        syscall
+        
+        la   $a0, nl
+        li   $v0, 4
+        syscall
+	
+	
 	jr	$ra

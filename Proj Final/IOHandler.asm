@@ -1,5 +1,3 @@
-
-
 .text
 IOHandler_process:
 	lw	$t6, key_lineEnable		# line enable address
@@ -75,29 +73,33 @@ queueIO:
 
 exitIO:
 	# TODO: colocar inputQueue em um $s
-	#lw	$t2, 0($s0)
-	#move	$a0, $t2
-	#li 	$v0, 1
-	#syscall
+	lw	$t2, 0($s0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
 	
-	#lw	$t2, 4($s0)
-	#move	$a0, $t2
-	#li 	$v0, 1
-	#syscall
+	lw	$t2, 4($s0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
 	
-	#lw	$t2, 8($s0)
-	#move	$a0, $t2
-	#li 	$v0, 1
-	#syscall
+	lw	$t2, 8($s0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
 	
-	#lw	$t2, 12($s0)
-	#move	$a0, $t2
-	#li 	$v0, 1
-	#syscall
+	lw	$t2, 12($s0)
+	move	$a0, $t2
+	li 	$v0, 1
+	syscall
 	
 	li	$a0, 1000
 	li 	$v0, 32
 	syscall
+	
+	la   $a0, nl
+        li   $v0, 4
+        syscall
 	
 	# volta pro programa
 	jr	$ra
