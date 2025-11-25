@@ -25,8 +25,8 @@ Scheduler_process:
 		lw	$t4, Elevador1_andarAtual
 		lw	$t5, Elevador2_andarAtual
 		
-		bnez	$s7, requestElevador2
-		bnez	$s6, requestElevador1
+		bne	$s7, -2, requestElevador2
+		bne	$s6, -2, requestElevador1
 		
 		sub	$t4, $t4, $t1
 		sub	$t5, $t5, $t1
@@ -70,8 +70,8 @@ Scheduler_process:
 		lw	$t4, Elevador1_emMovimento
 		lw	$t5, Elevador2_emMovimento
 		
-		bnez	$s7, requestElevador2
-		bnez	$s6, requestElevador1
+		bne	$s7, -2, requestElevador2
+		bne	$s6, -2, requestElevador1
 		
 		beqz	$t4, elevador2_Movendo
 		
@@ -154,8 +154,8 @@ Scheduler_process:
 			
 			
 	systemPause:
-		#ADD CODE
 		
+		#Trava de novos pedidos ate alocar espaco deste pedido
 		j	exitScheduler
 
 exitScheduler:

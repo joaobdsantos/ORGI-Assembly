@@ -23,7 +23,7 @@ Elevator2_process:
 	beq	$t2, 11, elevador2_RequestMovendo_descendo
 	
 	elevador2_RequestMovendo_subuindo:
-	bnez	$s6, elevador2_RequestMovendo_subindo_buscando
+	bne	$s6,-2, elevador2_RequestMovendo_subindo_buscando
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	lw	$t2, Elevador2_andarDestino	# carregando o detino atual
 	bge	$t2, $t0, elevador2_MoveLogic 	####era t2
@@ -43,7 +43,7 @@ Elevator2_process:
 	
 	
 	elevador2_RequestMovendo_descendo:
-	bnez	$s6, elevador2_RequestMovendo_descendo_buscando
+	bne	$s6, -2, elevador2_RequestMovendo_descendo_buscando
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	lw	$t2, Elevador2_andarDestino	# carregando o detino atual
 	ble	$t2, $t0, elevador2_MoveLogic 	####era t2
@@ -81,6 +81,7 @@ Elevator2_process:
 		lw	$t4, Elevador2_andarAtual
 		lw	$t5, Elevador2_andarDestino
 		blt	$t4, $t5, subindo2
+		beq	$t4, $t5, noMesmoLugar2
 	descendo2:
 		subi	$t4, $t4, 1
 		j	noMesmoLugar2
@@ -90,13 +91,13 @@ Elevator2_process:
 		sw	$t4, Elevador2_andarAtual
 		bne	$t4, $t5, exitElevator2
 		
-		bnez	$s6, trocaDestino2				#Atual do pedido -> Final do elevador /// Final do pedido -> s6 /// vê se tem algo em s6, 
+		bne	$s6, -2, trocaDestino2				#Atual do pedido -> Final do elevador /// Final do pedido -> s6 /// vê se tem algo em s6, 
 		
 		
 		sw	$zero, Elevador2_emMovimento
 		j exitElevator2
 trocaDestino2:
 		sw	$s6, Elevador2_andarDestino			
-		li	$s6, 0
+		li	$s6, -2
 exitElevator2:
 	jr	$ra

@@ -4,7 +4,8 @@ main:
 	la	$s1, displayTable
 	lw	$s2, ledE_end
 	lw	$s3, ledD_end
-		
+	li	$s6, -2
+	li	$s7, -2	
 Loop_main:
 	jal	IOHandler_process
 	jal	Scheduler_process
