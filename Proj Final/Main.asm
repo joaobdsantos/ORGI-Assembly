@@ -15,7 +15,7 @@ Loop_main:
 	la 	$t0, ($s1)
 	add	$t0, $t0, $t1
 	lb 	$t2, 0($t0)
-	sb 	$t2, 0($s2)       					# escreve o valor no display
+	sb 	$t2, 0($s2)					# escreve o valor no display
 	
 	lw	$t1, Elevador2_andarAtual
 	la 	$t0, ($s1)

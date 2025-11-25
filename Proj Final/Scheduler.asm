@@ -24,7 +24,10 @@ Scheduler_process:
 	elevadoresParados:
 		lw	$t4, Elevador1_andarAtual
 		lw	$t5, Elevador2_andarAtual
-	
+		
+		bnez	$s7, requestElevador2
+		bnez	$s6, requestElevador1
+		
 		sub	$t4, $t4, $t1
 		sub	$t5, $t5, $t1
 	
@@ -34,7 +37,7 @@ Scheduler_process:
 		elev1positivo:
 		bgez	$t5, elev2positivo
 		sub	$t5, $zero, $t5
-	
+		
 		elev2positivo:
 		bgt	$t4, $t5, requestElevador2
 		requestElevador1:
@@ -66,13 +69,20 @@ Scheduler_process:
 	# se nao manda o request pro outro elevador
 		lw	$t4, Elevador1_emMovimento
 		lw	$t5, Elevador2_emMovimento
+		
+		bnez	$s7, requestElevador2
+		bnez	$s6, requestElevador1
+		
 		beqz	$t4, elevador2_Movendo
+		
+		
 		
 		elevador1_Movendo:
 			lw	$t4, Elevador1_andarAtual
 			lw	$t5, Elevador1_andarDestino
 		
 			sub	$t6, $t4, $t5
+			
 			beq	$t2, 12, elevador1_verifyRequestSobe
 			elevador1_verifyRequestDesce:
 			blt	$t6, $zero, requestElevador2
