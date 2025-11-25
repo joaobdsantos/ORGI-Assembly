@@ -26,14 +26,14 @@ Elevator2_process:
 	bne	$s6,-2, elevador2_RequestMovendo_subindo_buscando
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	lw	$t2, Elevador2_andarDestino	# carregando o detino atual
-	bge	$t2, $t0, elevador2_MoveLogic 	####era t2
+	bge	$t2, $t0, elevador2_ClearRequest 	####era t2
 	sw	$t0, Elevador2_andarDestino
 	j	elevador2_ClearRequest
 	
 	elevador2_RequestMovendo_subindo_buscando:
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	#lw	$t2, Elevador1_andarDestino	# carregando o detino atual
-	bge	$s6, $t0, elevador2_MoveLogic 	####era t2
+	bge	$s6, $t0, elevador2_ClearRequest 	####era t2
 	#sw	$t0, Elevador1_andarDestino
 	move	$s6, $t0
 	j	elevador2_ClearRequest
@@ -46,14 +46,14 @@ Elevator2_process:
 	bne	$s6, -2, elevador2_RequestMovendo_descendo_buscando
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	lw	$t2, Elevador2_andarDestino	# carregando o detino atual
-	ble	$t2, $t0, elevador2_MoveLogic 	####era t2
+	ble	$t2, $t0, elevador2_ClearRequest 	####era t2
 	sw	$t0, Elevador2_andarDestino
 	j	elevador2_ClearRequest
 	
 	elevador2_RequestMovendo_descendo_buscando:
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	#lw	$t2, Elevador2_andarDestino	# carregando o detino atual
-	ble	$s6, $t0, elevador2_MoveLogic 	####era t2
+	ble	$s6, $t0, elevador2_ClearRequest 	####era t2
 	#sw	$t0, Elevador2_andarDestino
 	move	$s6, $t0
 	j	elevador2_ClearRequest
