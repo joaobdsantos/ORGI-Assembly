@@ -72,7 +72,7 @@ Elevator2_process:
 		beqz	$t0, exitElevator2
 	taMovendo2:
 		lw	$t1, Elevador2_passoTimer
-		addi 	$t1, $t1, 1000
+		addi 	$t1, $t1, 100
 		sw	$t1, Elevador2_passoTimer
 		bge	$t1, 4000, passaAndar2
 		j	exitElevator2

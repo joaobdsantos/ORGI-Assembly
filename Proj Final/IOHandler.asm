@@ -93,9 +93,9 @@ exitIO:
 	li 	$v0, 1
 	syscall
 	
-	li	$a0, 1000
-	li 	$v0, 32
-	syscall
+	#li	$a0, 1000
+	#li 	$v0, 32
+	#syscall
 	
 	la   $a0, nl
         li   $v0, 4
