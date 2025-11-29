@@ -24,7 +24,7 @@ Loop_main:
 	lb 	$t2, 0($t0)
 	sb 	$t2, 0($s3)
 	
-	li   $a0, 100
+	li   $a0, 10
 	jal  DELAY_PROC
 	
 	
