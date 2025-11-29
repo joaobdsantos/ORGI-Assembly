@@ -46,7 +46,11 @@ Elevator1_process:
 	bne	$s7,-2, elevador1_RequestMovendo_descendo_buscando
 	lw	$t0, 8($t1)			# carregando o destino final do request
 	lw	$t2, Elevador1_andarDestino	# carregando o detino atual
+<<<<<<< HEAD
 	ble	$t2, $t0, elevador1_ClearRequest	####era t2
+=======
+	ble	$t2, $t0, elevador1_ClearRequest 	####era t2
+>>>>>>> 66e39386b0601fd88f2c0c55f81f4bb68dc52c3e
 	sw	$t0, Elevador1_andarDestino
 	j	elevador1_ClearRequest
 	
@@ -72,7 +76,7 @@ Elevator1_process:
 		beqz	$t0, exitElevator1
 	taMovendo1:
 		lw	$t1, Elevador1_passoTimer
-		addi 	$t1, $t1, 1000
+		addi 	$t1, $t1, 100
 		sw	$t1, Elevador1_passoTimer
 		bge	$t1, 4000, passaAndar1
 		j	exitElevator1
